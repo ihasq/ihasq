@@ -1,1 +1,1 @@
-website: [ihasq.com](https://ihasq.com)
+website: https://ihasq.com
