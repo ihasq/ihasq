@@ -1,5 +1,7 @@
 ✨ JAVASCRIPT ROCK 'N' ROLL
 
+>> workio          the web worker framework       https://github.com/workio-js/workio
+
 >> libh            html in javascript             https://github.com/ihasq/libh
 >> vault           secure credential manager      https://github.com/ihasq/vault
 >> gputemplate     webgpu template generator      https://github.com/ihasq/gputemplate
