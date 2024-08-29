@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ihasq/esptr/issues"
   },
-  "homepage": "https://github.com/ihasq/esptr#readme"
+  "homepage": "https://github.com/ihasq/esptr#readme",
+  "dependencies": {
+    "@ihasq/random": "npm:@jsr/ihasq__random@^0.1.4"
+  }
 }

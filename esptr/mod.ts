@@ -1,3 +1,5 @@
+import { random } from "@ihasq/random";
+
 interface ESPointer {
 	toString(): symbol;
 	watch(callbackFn: Function): ESPointer;
@@ -19,16 +21,17 @@ const $ = (
 ): ESPointer => {
 
 	const
-		BASE_SYMBOL = Symbol(performance.now()),
+		BASE_TOKEN = random(16),
+		BASE_SYMBOL = Symbol(BASE_TOKEN),
 		WATCHER_CALLBACKS: Function[] = [],
 		GETTER_FN = {
 			get() {
 				return value;
-			}
+			},
+			configurable: false,
+			enumerable: false,
 		}
 	;
-
-	Object.defineProperty(window, BASE_SYMBOL, GETTER_FN);
 
 	Object.defineProperty($, BASE_SYMBOL, {
 		set(newValue) {
@@ -37,6 +40,14 @@ const $ = (
 			return true;
 		},
 		...GETTER_FN,
+	});
+
+	Object.defineProperty(window, BASE_TOKEN, {
+		enumerable: false,
+		configurable: false,
+		value(symbol) {
+			
+		}
 	});
 
 	return {
