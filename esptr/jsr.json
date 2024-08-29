@@ -1,0 +1,5 @@
+{
+	"name": "@ihasq/esptr",
+	"version": "0.1.3",
+	"exports": "./mod.ts"
+}
