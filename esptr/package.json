@@ -1,6 +1,6 @@
 {
   "name": "esptr",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Stupid Pointer For JavaScript",
   "main": "mod.ts",
   "scripts": {

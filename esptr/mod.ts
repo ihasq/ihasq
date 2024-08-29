@@ -16,12 +16,19 @@ Object.defineProperty(window, PTR_IDENTIFIER, {
 });
 
 const $ = (
+
 	value: any,
 	setterFn: Function = (x: any) => x
+
 ): ESPointer => {
 
+	let BASE_TOKEN = random(32);
+
+	while(BASE_TOKEN in window) {
+		BASE_TOKEN = random(32);
+	};
+
 	const
-		BASE_TOKEN = random(),
 		BASE_SYMBOL = Symbol(BASE_TOKEN),
 		WATCHER_CALLBACKS: Function[] = [],
 		GETTER_FN = {
