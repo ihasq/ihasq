@@ -19,17 +19,12 @@ const getBufferFragment = (): number => RAND_BUF[
 export const random = (
 
 	length: number = 16,
-	sample: string = "0123457689abcdefghijklmnopqrstuvwxyz"
+	sample: string = "0123457689abcdefghijklmnopqrstuvwxyz",
+	sampleLength: number = sample.length,
 
-): string => {
-
-	const SAMPLE_LENGTH = sample.length;
-
-	return Array(length)
-		.fill(0)
-		.map(getBufferFragment)
-		.map(x => sample[Math.floor((x / 255) * SAMPLE_LENGTH)])
-		.join("")
-	;
-
-};
+): string => Array(length)
+	.fill(0)
+	.map(getBufferFragment)
+	.map(x => sample[Math.floor((x / 255) * sampleLength)])
+	.join("")
+;
