@@ -3,7 +3,7 @@ const RAND_BUF = crypto.getRandomValues(new Uint8Array(BUF_SIZE));
 
 let index = 0;
 
-const getBufferFragment = () => {
+const getBufferFragment = (): number => {
 	if(index == BUF_SIZE) {
 		crypto.getRandomValues(RAND_BUF);
 		index = 0;
@@ -11,7 +11,7 @@ const getBufferFragment = () => {
 	return RAND_BUF[index++];
 };
 
-export const random = (length = 16, sample = "0123457689abcdefghijklmnopqrstuvwxyz") => {
+export const random = (length: number = 16, sample: string = "0123457689abcdefghijklmnopqrstuvwxyz"): string => {
 	const SAMPLE_LENGTH = sample.length;
 	return Array(length)
 		.fill(0)
