@@ -21,7 +21,7 @@ const $ = (
 ): ESPointer => {
 
 	const
-		BASE_TOKEN = random(16),
+		BASE_TOKEN = random(),
 		BASE_SYMBOL = Symbol(BASE_TOKEN),
 		WATCHER_CALLBACKS: Function[] = [],
 		GETTER_FN = {
@@ -45,9 +45,10 @@ const $ = (
 	Object.defineProperty(window, BASE_TOKEN, {
 		enumerable: false,
 		configurable: false,
-		value(symbol) {
-			
-		}
+		value: (symbol) => symbol === BASE_SYMBOL
+			? value
+			: undefined
+		,
 	});
 
 	return {

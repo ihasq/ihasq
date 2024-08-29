@@ -3,14 +3,16 @@ const RAND_BUF = crypto.getRandomValues(new Uint8Array(BUF_SIZE));
 
 let index = 0;
 
-const getBufferFragment = (): number => RAND_BUF[index == BUF_SIZE
+const getBufferFragment = (): number => RAND_BUF[
+	
+	index == BUF_SIZE
 
-	? ((): number => {
-		crypto.getRandomValues(RAND_BUF);
-		return index = 0;
-	})()
+		? ((): number => {
+			crypto.getRandomValues(RAND_BUF);
+			return index = 0;
+		})()
 
-	: index++
+		: index++
 
 ];
 
