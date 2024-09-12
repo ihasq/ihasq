@@ -42,7 +42,7 @@ const $ = (
 		WINDOW_PROPERTY = {
 			enumerable: false,
 			configurable: false,
-			value: (symbol) => (symbol == BASE_SYMBOL || PUBLISHED_SYMBOL.includes(symbol))
+			value: (symbol: symbol) => (symbol == BASE_SYMBOL || PUBLISHED_SYMBOL.includes(symbol))
 				? value
 				: undefined
 			,
