@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/ihasq/esptr#readme",
   "dependencies": {
-    "@ihasq/random": "npm:@jsr/ihasq__random@^0.1.5"
+    "@ihasq/random": "npm:@jsr/ihasq__random@^0.1.6"
   }
 }
