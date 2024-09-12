@@ -4,6 +4,7 @@ interface ESPointer {
 	toString(): symbol;
 	watch(callbackFn: Function): ESPointer;
 	fork(): ESPointer;
+	publishSymbol(): symbol;
 	PTR_IDENTIFIER: symbol;
 	// to(destination: number, duration?: number): ESPointer;
 };
@@ -37,7 +38,16 @@ const $ = (
 			},
 			configurable: false,
 			enumerable: false,
-		}
+		},
+		WINDOW_PROPERTY = {
+			enumerable: false,
+			configurable: false,
+			value: (symbol) => (symbol == BASE_SYMBOL || PUBLISHED_SYMBOL.includes(symbol))
+				? value
+				: undefined
+			,
+		},
+		PUBLISHED_SYMBOL: symbol[] = []
 	;
 
 	Object.defineProperty($, BASE_SYMBOL, {
@@ -49,14 +59,7 @@ const $ = (
 		...GETTER_FN,
 	});
 
-	Object.defineProperty(window, BASE_TOKEN, {
-		enumerable: false,
-		configurable: false,
-		value: (symbol) => symbol === BASE_SYMBOL
-			? value
-			: undefined
-		,
-	});
+	Object.defineProperty(window, BASE_TOKEN, WINDOW_PROPERTY);
 
 	return {
 		toString(): symbol {
@@ -98,9 +101,14 @@ const $ = (
 		fork(): ESPointer {
 			return $(value);
 		},
+		publishSymbol(): symbol {
+			const NEW_SYMBOL = Symbol(BASE_TOKEN);
+			PUBLISHED_SYMBOL.push(NEW_SYMBOL);
+			return NEW_SYMBOL;
+		},
+		
 		PTR_IDENTIFIER
 	}
 };
 
 export { $ }
-
