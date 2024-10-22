@@ -1,20 +1,19 @@
-import { random } from "@ihasq/random";
+// import { random } from "@ihasq/random";
 
 interface ESPointer {
-	toString(): symbol;
-	watch(callbackFn: Function): ESPointer;
+	$: any;
+	watch(callbackFn: Function): this;
+	into(transformerFn: Function): this;
 	fork(): ESPointer;
-	publishSymbol(): symbol;
-	PTR_IDENTIFIER: symbol;
 	// to(destination: number, duration?: number): ESPointer;
 };
 
 const PTR_IDENTIFIER = Symbol("ESPTR");
 
-Object.defineProperty(window, PTR_IDENTIFIER, {
-	value: true,
-	configurable: false
-});
+// Object.defineProperty(window, PTR_IDENTIFIER, {
+// 	value: true,
+// 	configurable: false
+// });
 
 const $ = (
 
@@ -23,55 +22,56 @@ const $ = (
 
 ): ESPointer => {
 
-	let BASE_TOKEN = random(32);
-
-	while(BASE_TOKEN in window) {
-		BASE_TOKEN = random(32);
-	};
-
 	const
-		BASE_SYMBOL = Symbol(BASE_TOKEN),
+		BASE_SYMBOL = Symbol(),
 		WATCHER_CALLBACKS: Function[] = [],
-		GETTER_FN = {
-			get() {
-				return value;
-			},
-			configurable: false,
-			enumerable: false,
-		},
-		WINDOW_PROPERTY = {
-			enumerable: false,
-			configurable: false,
-			value: (symbol: symbol) => (symbol == BASE_SYMBOL || PUBLISHED_SYMBOL.includes(symbol))
-				? value
-				: undefined
-			,
-		},
+		// GETTER_FN = {
+		// 	get() {
+		// 		return value;
+		// 	},
+		// 	configurable: false,
+		// 	enumerable: false,
+		// },
+		// WINDOW_PROPERTY = {
+		// 	enumerable: false,
+		// 	configurable: false,
+		// 	value: (symbol: symbol) => (symbol == BASE_SYMBOL || PUBLISHED_SYMBOL.includes(symbol))
+		// 		? value
+		// 		: undefined
+		// 	,
+		// },
 		PUBLISHED_SYMBOL: symbol[] = []
 	;
 
-	Object.defineProperty($, BASE_SYMBOL, {
-		set(newValue) {
-			WATCHER_CALLBACKS.forEach((x: Function) => x ? x(newValue) : undefined);
-			value = setterFn(newValue);
-			return true;
-		},
-		...GETTER_FN,
-	});
-
-	Object.defineProperty(window, BASE_TOKEN, WINDOW_PROPERTY);
+	// Object.defineProperty($, BASE_SYMBOL, {
+	// 	set(newValue) {
+	// 		if(value === (value = setterFn(newValue))) return;
+	// 		WATCHER_CALLBACKS.forEach((x: Function) => x ? x(value) : undefined);
+	// 		return true;
+	// 	},
+	// 	...GETTER_FN,
+	// });
 
 	return {
-		toString(): symbol {
-			return BASE_SYMBOL;
+		set $(newValue) {
+			if(value === (value = setterFn(newValue))) return;
+			WATCHER_CALLBACKS.forEach((x: Function) => x ? x(value) : undefined);
+		},
+		get $() {
+			return value;
 		},
 		watch(callbackFn?: Function): ESPointer {
-			if(callbackFn) {
-				callbackFn(value);
-				WATCHER_CALLBACKS.push(callbackFn);
-			}
+			if(!callbackFn) return this;
+			callbackFn(value);
+			WATCHER_CALLBACKS.push(callbackFn);
 			return this;
 		},
+		into(transformerFn: Function): ESPointer {
+			const ptr = $(undefined);
+			this.watch($ => ptr.$ = transformerFn($));
+			return ptr;
+		},
+		
 		// into(
 		// 	transformerFn: Function
 		// ): ESPointer {
@@ -100,14 +100,7 @@ const $ = (
 		// },
 		fork(): ESPointer {
 			return $(value);
-		},
-		publishSymbol(): symbol {
-			const NEW_SYMBOL = Symbol(BASE_TOKEN);
-			PUBLISHED_SYMBOL.push(NEW_SYMBOL);
-			return NEW_SYMBOL;
-		},
-		
-		PTR_IDENTIFIER
+		}
 	}
 };
 
